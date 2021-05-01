@@ -16,22 +16,30 @@ class PlacesList extends StatelessWidget {
           ),
         ],
       ),
-      body: Consumer<PlaceProvider>(
-        builder: (ctx, provider, reusable) => provider.places.isEmpty
-            ? reusable
-            : ListView.builder(
-                itemBuilder: (ct, index) => ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: FileImage(provider.places[index].image),
-                  ),
-                  title: Text(provider.places[index].title),
-                  onTap: () => {},
+      body: FutureBuilder(
+        future:
+            Provider.of<PlaceProvider>(context, listen: false).fetchFromDb(),
+        builder: (ctx, snapshot) => snapshot.connectionState ==
+                ConnectionState.waiting
+            ? Center(child: CircularProgressIndicator())
+            : Consumer<PlaceProvider>(
+                builder: (ctx, provider, reusable) => provider.places.isEmpty
+                    ? reusable
+                    : ListView.builder(
+                        itemBuilder: (ct, index) => ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage:
+                                FileImage(provider.places[index].image),
+                          ),
+                          title: Text(provider.places[index].title),
+                          onTap: () => {},
+                        ),
+                        itemCount: provider.places.length,
+                      ),
+                child: Center(
+                  child: Text('Got not places, start adding some!'),
                 ),
-                itemCount: provider.places.length,
               ),
-        child: Center(
-          child: Text('Got not places, start adding some!'),
-        ),
       ),
     );
   }
