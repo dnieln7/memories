@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:memories/provider/place_provider.dart';
 import 'package:memories/ui/widget/input/image_field.dart';
+import 'package:memories/ui/widget/input/location_field.dart';
 import 'package:memories/ui/widget/input/text_field_empty.dart';
 import 'package:provider/provider.dart';
 
@@ -49,6 +50,8 @@ class _AddPlaceState extends State<AddPlace> {
                     theme: Theme.of(context).primaryColor,
                     saveListener: (image) => selectImage(image),
                   ),
+                  SizedBox(height: 20),
+                  LocationField(),
                 ],
               ),
             ),
