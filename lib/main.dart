@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:memories/provider/places_provider.dart';
+import 'package:memories/provider/place_provider.dart';
+import 'package:memories/ui/page/place/add_place.dart';
 import 'package:memories/ui/page/place/places_list.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.amber,
         ),
         home: PlacesList(),
+        routes: {
+          AddPlace.path: (ctx) => AddPlace(),
+        },
       ),
     );
   }
