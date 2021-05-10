@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:memories/model/place_location.dart';
 import 'package:memories/provider/place_provider.dart';
 import 'package:memories/ui/widget/input/image_field.dart';
 import 'package:memories/ui/widget/input/location_field.dart';
@@ -20,6 +21,7 @@ class _AddPlaceState extends State<AddPlace> {
   bool working = false;
   String title;
   File image;
+  PlaceLocation location;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,7 @@ class _AddPlaceState extends State<AddPlace> {
                     saveListener: (image) => selectImage(image),
                   ),
                   SizedBox(height: 20),
-                  LocationField(),
+                  LocationField((lat, lon) => selectLocation(lat, lon)),
                 ],
               ),
             ),
@@ -77,13 +79,30 @@ class _AddPlaceState extends State<AddPlace> {
     this.image = image;
   }
 
+  void selectLocation(double latitude, double longitude) {
+    location = PlaceLocation(latitude: latitude, longitude: longitude);
+  }
+
   void savePlace() {
     setState(() => working = true);
 
     if (formKey.currentState.validate() && image != null) {
-      Provider.of<PlaceProvider>(context, listen: false).add(title, image);
-      Navigator.of(context).pop();
-      setState(() => working = false);
+      if (location == null) {
+        scaffoldKey.currentState.showSnackBar(
+          SnackBar(
+            content: Text('You need to select your location'),
+            duration: Duration(seconds: 1),
+          ),
+        );
+      } else {
+        Provider.of<PlaceProvider>(context, listen: false).add(
+          title,
+          image,
+          location,
+        );
+        Navigator.of(context).pop();
+        setState(() => working = false);
+      }
     } else {
       scaffoldKey.currentState.showSnackBar(
         SnackBar(

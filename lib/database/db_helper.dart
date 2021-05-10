@@ -10,7 +10,7 @@ class DBHelper {
       join(path, 'memories.db'),
       onCreate: (db, version) {
         return db.execute(
-            'CREATE TABLE tb_places(id TEXT PRIMARY KEY, title TEXT, image TEXT)');
+            'CREATE TABLE tb_places(id TEXT PRIMARY KEY, title TEXT, image TEXT, loc_lat REAL, loc_lon REAL, loc_address TEXT)');
       },
       version: 1,
     );
