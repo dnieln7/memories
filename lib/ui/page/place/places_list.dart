@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memories/provider/place_provider.dart';
 import 'package:memories/ui/page/place/add_place.dart';
+import 'package:memories/ui/page/place/place_detail.dart';
 import 'package:provider/provider.dart';
 
 class PlacesList extends StatelessWidget {
@@ -34,7 +35,12 @@ class PlacesList extends StatelessWidget {
                           title: Text(provider.places[index].title),
                           subtitle:
                               Text(provider.places[index].location.address),
-                          onTap: () => {},
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (ctx) =>
+                                  PlaceDetail(provider.places[index]),
+                            ),
+                          ),
                         ),
                         itemCount: provider.places.length,
                       ),

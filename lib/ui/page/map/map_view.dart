@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:memories/location/location_helper.dart';
 import 'package:memories/model/place_location.dart';
 
 class MapView extends StatefulWidget {
@@ -44,12 +43,16 @@ class _MapViewState extends State<MapView> {
           zoom: 15,
         ),
         onTap: (argument) => widget.readOnly ? null : selectLocation(argument),
-        markers: pickedLocation == null
+        markers: pickedLocation == null && !widget.readOnly
             ? {}
             : {
                 Marker(
                   markerId: MarkerId('m1'),
-                  position: pickedLocation,
+                  position: pickedLocation ??
+                      LatLng(
+                        widget.initLocation.latitude,
+                        widget.initLocation.longitude,
+                      ),
                 ),
               },
       ),
